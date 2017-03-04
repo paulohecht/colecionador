@@ -11,6 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
+
+        AdView adView = (AdView) findViewById(R.id.ad_view);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(getString(R.string.admob_test_device_id))
+                .build();
+        adView.loadAd(adRequest);
+
     }
 
     private void loadData() {
