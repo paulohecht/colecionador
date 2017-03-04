@@ -11,6 +11,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -31,8 +40,26 @@ public class SplashActivity extends AppCompatActivity {
                             return;
                             //TODO: REDIRECT TO FAIL SCREEN...
                         }
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                        finish();
+
+                        final DatabaseReference db = FirebaseDatabase.getInstance().getReference("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        db.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (!dataSnapshot.exists()) {
+                                    //Set default values for user...
+                                    HashMap users = new HashMap();
+                                    users.put("name", "anonymous");
+                                    users.put("likes_count", 0);
+                                    users.put("posts_count", 0);
+                                    db.setValue(users);
+                                }
+                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                                finish();
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
                     }
                 });
     }
