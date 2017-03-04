@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
+import com.squareup.picasso.Picasso;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
@@ -71,8 +72,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
         public void render(DataSnapshot data) {
             if (textView != null) textView.setText(data.child("text").getValue(String.class));
-            if (imageView != null) ;
-
+            if (imageView != null) {
+                Picasso.with(itemView.getContext())
+                        .load(data.child("image").getValue(String.class))
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.placeholder)
+                        .into(imageView);
+            }
         }
     }
 

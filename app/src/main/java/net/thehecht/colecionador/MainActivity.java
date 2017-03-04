@@ -73,18 +73,22 @@ public class MainActivity extends AppCompatActivity {
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildKey) {
+                Log.d("DEBUG", "onChildAdded");
                 adapter.addItem(dataSnapshot);
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildKey) {
+                Log.d("DEBUG", "onChildChanged");
                 adapter.addItem(dataSnapshot);
             }
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d("DEBUG", "onChildRemoved");
                 adapter.removeItem(dataSnapshot);
             }
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildKey) {
+                Log.d("DEBUG", "onChildMoved");
                 adapter.addItem(dataSnapshot);
             }
             @Override
