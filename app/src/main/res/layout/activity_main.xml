@@ -20,16 +20,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Content" />
-
-    </LinearLayout>
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_main"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
