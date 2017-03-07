@@ -16,12 +16,19 @@ Um aplicativo Android boilerplate explorando features do Firebase.
 - [x] [Mostrar todos os posts em um RecyclerView](https://github.com/thehecht/colecionador/commit/8c0f5b85baad314b51b6f90344166f746ef396a0)
 
 - [x] [Enviar uma foto associada ao post](https://github.com/thehecht/colecionador/commit/796a33e2330dd1f4610a652bbff2368ad8d3deb3)
+
   - [x] Tirar Foto
-    - [x] Utilizar câmera
-    - [x] Configurar File Provider
+  
+    - [x] Utilizar câmera
+    
+    - [x] Configurar File Provider
+  
   - [x] UCrop
+  
   - [x] Upload para o Storage
+  
   - [x] Mostrar fotos no feed
+    
     - [x] Picasso
 
 - [x] [Banner AdMob](https://github.com/thehecht/colecionador/commit/045042455f9984c9b5e968f4025960e5d8f7737d)
