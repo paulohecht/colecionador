@@ -1,67 +1,41 @@
 # Colecionador
 Um aplicativo Android boilerplate explorando features do Firebase.
 
-
 ## Passos
 
-Init do Projeto
+- [x] [Init do Projeto](https://github.com/thehecht/colecionador/commit/cd238b1719decdcc361ddd0741156de4faf5ffcf)
 
-886f14b9cf8e32ca31845dafc4b8f7d03a2d9e40
+- [x] [Integração com Firebase](https://github.com/thehecht/colecionador/commit/d2054da7065917c5081b51ae45f59a2ea770a4f3)
 
-Integração com Firebase
+- [x] [Autenticação Anônima](https://github.com/thehecht/colecionador/commit/d52442b277fb28b29e70d4edaedb4c7f187e4a75)
 
-d2054da7065917c5081b51ae45f59a2ea770a4f3
+- [x] [Criar usuário no Firebase Realtime Database](https://github.com/thehecht/colecionador/commit/8a802fdacad013458bea8fdb5ebabfd7489ec3fd)
 
-Anonymous Authentication
+- [x] [Adicionar uma postagem no Database](https://github.com/thehecht/colecionador/commit/bdd55e0f75c254fffda497807dd8424cbafd44aa)
 
-d52442b277fb28b29e70d4edaedb4c7f187e4a75
+- [x] [Mostrar todos os posts em um RecyclerView](https://github.com/thehecht/colecionador/commit/8c0f5b85baad314b51b6f90344166f746ef396a0)
 
-Criar usuário no Firebase Realtime Database
+- [x] [Enviar uma foto associada ao post](https://github.com/thehecht/colecionador/commit/796a33e2330dd1f4610a652bbff2368ad8d3deb3)
+  - [x] Tirar Foto
+    - [x] Utilizar câmera
+    - [x] Configurar File Provider
+  - [x] UCrop
+  - [x] Upload para o Storage
+  - [x] Mostrar fotos no feed
+    - [x] Picasso
 
-8a802fdacad013458bea8fdb5ebabfd7489ec3fd
+- [x] [Banner AdMob](https://github.com/thehecht/colecionador/commit/045042455f9984c9b5e968f4025960e5d8f7737d)
 
-Adicionar uma postagem no Database
+- [ ] Curtir postagens
 
-bdd55e0f75c254fffda497807dd8424cbafd44aa
+- [ ] Firebase Analytics
 
-Mostrar todos os posts em um RecyclerView
+- [ ] Disparar notificações
 
-8c0f5b85baad314b51b6f90344166f746ef396a0
+- [ ] Autenticação não Anônima
 
-Enviar uma foto associada ao post
+- [ ] Editar perfil de usuários (nome e foto)
 
-796a33e2330dd1f4610a652bbff2368ad8d3deb3
- - Tirar Foto
-   - File Provider
- - UCrop
- - Storage
- - Mostrar fotos
-   - Picasso
+- [ ] Visualizar perfil de usuários com posts
 
-Banner AdMob
-
-045042455f9984c9b5e968f4025960e5d8f7737d
-
-Curtir
-
-?
-
-Firebase Analytics
-
-?
-
-Disparar notificações
-
-?
-
-Editar perfil de usuários (nome e foto)
-
-?
-
-Visualizar perfil de usuários com posts
-
-?
-
-Comentar
-
-?
+- [ ] Comentar
