@@ -35,7 +35,7 @@ Um aplicativo Android boilerplate explorando features do Firebase.
 
 - [x] [Remote Config](https://github.com/thehecht/colecionador/commit/4f392777871553e3481af2ba4768d1ec7cef1d1a)
 
-- [ ] Firebase Analytics
+- [x] [Firebase Analytics](https://github.com/thehecht/colecionador/commit/a7a0a90383ea8d9565a87281c434ab047074d05c)
 
 - [ ] Curtir postagens
 
