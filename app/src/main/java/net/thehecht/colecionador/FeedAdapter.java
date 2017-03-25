@@ -9,7 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.squareup.picasso.Picasso;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
@@ -58,19 +64,26 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
         TextView textView;
         ImageView imageView;
+        ImageView liked;
+        TextView likedCount;
 
         public ViewHolder(View v) {
             super(v);
             textView = (TextView) v.findViewById(R.id.text);
             imageView = (ImageView) v.findViewById(R.id.image);
+            liked = (ImageView) v.findViewById(R.id.liked);
+            likedCount = (TextView) v.findViewById(R.id.liked_count);
+
         }
 
         public void reset() {
             if (textView != null) textView.setText("");
             if (imageView != null) imageView.setImageResource(R.drawable.placeholder);
+            if (liked != null) liked.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            if (likedCount != null) likedCount.setText("");
         }
 
-        public void render(DataSnapshot data) {
+        public void render(final DataSnapshot data) {
             if (textView != null) textView.setText(data.child("text").getValue(String.class));
             if (imageView != null) {
                 Picasso.with(itemView.getContext())
@@ -79,6 +92,63 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                         .error(R.drawable.placeholder)
                         .into(imageView);
             }
+            if (liked != null) {
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                if (data.child("likes").hasChild(userId) && data.child("likes").child(userId).getValue(Boolean.class)) {
+                    liked.setImageResource(R.drawable.ic_favorite_black_24dp);
+                    liked.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            FirebaseDatabase.getInstance().getReference("posts").child(data.getKey()).runTransaction(new Transaction.Handler() {
+                                @Override
+                                public Transaction.Result doTransaction(MutableData mutableData) {
+                                    int likesCount = mutableData.hasChild("likes_count") ? mutableData.child("likes_count").getValue(Integer.class) : 0;
+                                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                    mutableData.child("likes").child(userId).setValue(false);
+                                    mutableData.child("likes_count").setValue(Math.max(likesCount - 1, 0));
+                                    DatabaseReference likeReference = FirebaseDatabase.getInstance().getReference("post_likes").child(data.getKey()).child(userId);
+                                    likeReference.setValue(false);
+                                    return Transaction.success(mutableData);
+                                }
+                                @Override
+                                public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                                }
+                            });
+                        }
+                    });
+                }
+                else {
+                    liked.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            liked.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    FirebaseDatabase.getInstance().getReference("posts").child(data.getKey()).runTransaction(new Transaction.Handler() {
+                                        @Override
+                                        public Transaction.Result doTransaction(MutableData mutableData) {
+                                            int likesCount = mutableData.hasChild("likes_count") ? mutableData.child("likes_count").getValue(Integer.class) : 0;
+                                            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                            mutableData.child("likes").child(userId).setValue(true);
+                                            mutableData.child("likes_count").setValue(Math.max(likesCount + 1, 0));
+                                            DatabaseReference likeReference = FirebaseDatabase.getInstance().getReference("post_likes").child(data.getKey()).child(userId);
+                                            likeReference.setValue(true);
+                                            return Transaction.success(mutableData);
+                                        }
+
+                                        @Override
+                                        public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+            int likesCount = data.child("likes_count").getValue(Integer.class);
+            if (likedCount != null && likesCount > 0) likedCount.setText("" + likesCount);
+
         }
     }
 
