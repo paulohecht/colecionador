@@ -33,9 +33,11 @@ Um aplicativo Android boilerplate explorando features do Firebase.
 
 - [x] [Banner AdMob](https://github.com/thehecht/colecionador/commit/045042455f9984c9b5e968f4025960e5d8f7737d)
 
-- [ ] Curtir postagens
+- [x] [Remote Config](https://github.com/thehecht/colecionador/commit/4f392777871553e3481af2ba4768d1ec7cef1d1a)
 
 - [ ] Firebase Analytics
+
+- [ ] Curtir postagens
 
 - [ ] Disparar notificações
 
