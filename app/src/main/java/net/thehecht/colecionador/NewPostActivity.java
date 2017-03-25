@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -107,6 +108,7 @@ public class NewPostActivity extends AppCompatActivity {
                 uploadFile(db, key, userId, view, callback);
             }
         });
+        FirebaseAnalytics.getInstance(NewPostActivity.this).logEvent("post", null);
     }
 
     private void uploadFile(final DatabaseReference db, final String key, final String userId, final View view, final OnSaveCompletedListener callback) {
