@@ -2,6 +2,7 @@ package net.thehecht.colecionador;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import android.view.View;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,8 +24,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 public class MainActivity extends AppCompatActivity {
+
+    private FirebaseRemoteConfig firebaseRemoteConfig;
 
     private RecyclerView recyclerView;
     private FeedAdapter adapter;
@@ -69,13 +76,34 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
-
-        AdView adView = (AdView) findViewById(R.id.ad_view);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(getString(R.string.admob_test_device_id))
+        firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
                 .build();
-        adView.loadAd(adRequest);
+        firebaseRemoteConfig.setConfigSettings(configSettings);
+
+        firebaseRemoteConfig.setDefaults(R.xml.defaults);
+
+        firebaseRemoteConfig.fetch(5)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        firebaseRemoteConfig.activateFetched();
+                        if (firebaseRemoteConfig.getBoolean("has_ads")) {
+                            MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
+                            AdView adView = (AdView) findViewById(R.id.ad_view);
+                            AdRequest adRequest = new AdRequest.Builder()
+                                    .addTestDevice(getString(R.string.admob_test_device_id))
+                                    .build();
+                            adView.loadAd(adRequest);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                    }
+                });
 
     }
 
